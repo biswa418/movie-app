@@ -1,17 +1,42 @@
-import { ADD_MOVIES } from "../actions"
+import { ADD_FAV, ADD_MOVIES, REMOVE_FAV, SHOW_FAV } from "../actions"
 
 const initialState = {
     list: [],
-    fav: []
+    fav: [],
+    show_fav: false
 }
 
 export default function movies(state = initialState, action) {
-    if (action.type === ADD_MOVIES) {
-        return {
-            ...state,
-            list: action.movies
-        }
-    }
+    switch (action.type) {
+        case ADD_MOVIES:
+            return {
+                ...state,
+                list: action.movies
+            }
 
-    return state
+        case ADD_FAV:
+            return {
+                ...state,
+                fav: [action.movie, ...state.fav]
+            }
+
+        case REMOVE_FAV:
+            const removedArr = state.fav.filter((mov) => {
+                return mov.Title !== action.movie.Title
+            })
+
+            return {
+                ...state,
+                fav: removedArr
+            }
+
+        case SHOW_FAV:
+            return ({
+                ...state,
+                show_fav: action.value
+            })
+
+        default:
+            return state
+    }
 }

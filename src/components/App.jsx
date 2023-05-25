@@ -2,7 +2,7 @@ import React from "react"
 import { data } from "../data"
 import MovieCard from "./MovieCard"
 import Navbar from "./Navbar"
-import { addMovies } from "../actions";
+import { addMovies, showFav } from "../actions";
 
 class App extends React.Component {
 
@@ -18,10 +18,27 @@ class App extends React.Component {
     store.dispatch(addMovies(data))
   }
 
+  //check if already in fav
+  checkifFav = (movie) => {
+    const { fav } = this.props.store.getState();
+
+    if (fav.indexOf(movie) > -1) {
+      return true; //movie found in fav
+    }
+
+    return false;
+  }
+
+  onChangeTab = (val) => {
+    console.log('clicked', val);
+    this.props.store.dispatch(showFav(val));
+  }
 
   render() {
 
-    const { list } = this.props.store.getState();
+    const { list, fav, show_fav } = this.props.store.getState();
+    const displayMovs = show_fav ? fav : list;
+
 
     return (
       <>
@@ -30,15 +47,31 @@ class App extends React.Component {
 
           <div className="main">
             <div className="tabs">
-              <div className="tab">Movies</div>
-              <div className="tab">Favorites</div>
+              <div className={`tab ${show_fav ? '' : 'active-tabs'}`} onClick={() => this.onChangeTab(false)}>Movies</div>
+              <div className={`tab ${show_fav ? 'active-tabs' : ''}`} onClick={() => this.onChangeTab(true)}>Favorites</div>
             </div>
 
             <div className="list">
-              {list.map((movie, index) => {
-                return <MovieCard movie={movie} key={index} />
+              {displayMovs.map((movie, index) => {
+                return (
+                  <MovieCard
+                    movie={movie}
+                    key={index}
+                    dispatch={this.props.store.dispatch}
+                    isFav={this.checkifFav(movie)}
+                  />
+                )
               })}
             </div>
+
+            {
+              displayMovs.length === 0 ?
+                <div className="no-movies">
+                  No movies found!
+                </div>
+                :
+                null
+            }
           </div>
         </div>
       </>
