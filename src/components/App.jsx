@@ -9,7 +9,7 @@ class App extends React.Component {
   componentDidMount() {
     const { store } = this.props;
     store.subscribe(() => {
-      console.log('UPDATED')
+      // console.log('UPDATED')
       this.forceUpdate() // not recommended
     })
 
@@ -21,7 +21,7 @@ class App extends React.Component {
 
   render() {
 
-    const movies = this.props.store.getState();
+    const { list } = this.props.store.getState();
 
     return (
       <>
@@ -35,7 +35,7 @@ class App extends React.Component {
             </div>
 
             <div className="list">
-              {movies.map((movie, index) => {
+              {list.map((movie, index) => {
                 return <MovieCard movie={movie} key={index} />
               })}
             </div>
