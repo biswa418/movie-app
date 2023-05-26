@@ -20,7 +20,8 @@ class App extends React.Component {
 
   //check if already in fav
   checkifFav = (movie) => {
-    const { fav } = this.props.store.getState();
+    const { movies } = this.props.store.getState();
+    const { fav } = movies;
 
     if (fav.indexOf(movie) > -1) {
       return true; //movie found in fav
@@ -30,13 +31,13 @@ class App extends React.Component {
   }
 
   onChangeTab = (val) => {
-    console.log('clicked', val);
+    // console.log('clicked', val);
     this.props.store.dispatch(showFav(val));
   }
 
   render() {
-
-    const { list, fav, show_fav } = this.props.store.getState();
+    const { movies } = this.props.store.getState()
+    const { list, fav, show_fav } = movies;
     const displayMovs = show_fav ? fav : list;
 
 
