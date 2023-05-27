@@ -1,12 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 
 import './index.css'
 import { App } from './components'
 import rootReducer from './reducers'
 
-const store = createStore(rootReducer)
+//middleware
+const logger = function ({ dispatch, getState }) {
+  return function (next) {
+    return function (action) {
+      console.log(action.type);
+      next(action)
+    }
+  }
+}
+
+const store = createStore(rootReducer, applyMiddleware(logger));
 // console.log(store)
 // console.log(store.getState())
 
