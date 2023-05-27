@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { handleMovieSearch } from '../actions'
+import { handleMovieSearch, addMovietoList } from '../actions'
 
 const Navbar = (props) => {
     const [searchResText, setSearchResText] = useState('');
     const { result: movie, showSearch } = props.search;
+    console.log(movie);
 
     const handleChange = (e) => {
         setSearchResText(e.target.value)
@@ -11,6 +12,10 @@ const Navbar = (props) => {
 
     const handleSearch = () => {
         props.dispatch(handleMovieSearch(searchResText))
+    }
+
+    const handleAddtoMov = (movie) => {
+        props.dispatch(addMovietoList(movie))
     }
 
     return (
@@ -27,7 +32,7 @@ const Navbar = (props) => {
                         {
                             movie.map(singMovie => {
                                 return (
-                                    <div key={singMovie.imdbId} className='search-result'>
+                                    <div key={`movie-${singMovie.Title}-${singMovie.imdbId}`} className='search-result'>
                                         <img src={singMovie.Poster} alt='movie-poster' />
                                         <div className='movie-info'>
                                             <span>{singMovie.Title}

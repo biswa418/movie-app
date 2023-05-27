@@ -9,6 +9,7 @@ export const ADD_FAV = 'ADD_FAV';
 export const REMOVE_FAV = 'REMOVE_FAV';
 export const SHOW_FAV = 'SHOW_FAV';
 export const ADD_TO_SEARCH_RES = 'ADD_TO_SEARCH_RES';
+export const ADD_MOVIE_TO_LIST = 'ADD_MOVIE_TO_LIST';
 
 
 //action reducer
@@ -56,5 +57,24 @@ export function addMovieSearch(moviesList) {
     return {
         type: ADD_TO_SEARCH_RES,
         moviesList
+    }
+}
+
+export function addMovietoList(movie) {
+    const url = `https://www.omdbapi.com/?apikey=3ca5df7&i=${movie.imdbID}`
+
+    return function (dispatch) {
+        fetch(url)
+            .then(response => response.json())
+            .then(movies => {
+                dispatch(addMovietoListwithDesc(movies))
+            })
+    }
+}
+
+export function addMovietoListwithDesc(movie) {
+    return {
+        type: ADD_MOVIE_TO_LIST,
+        movie
     }
 }
