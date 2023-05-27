@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_FAV, ADD_MOVIES, REMOVE_FAV, SHOW_FAV } from "../actions"
+import { ADD_FAV, ADD_MOVIES, ADD_TO_SEARCH_RES, REMOVE_FAV, SHOW_FAV } from "../actions"
 
 const initialState = {
     list: [],
@@ -43,10 +43,21 @@ export function movies(state = initialState, action) {
 }
 
 const initialSearch = {
-    result: {}
+    result: {},
+    showSearch: false
 }
 export function search(state = initialSearch, action) {
-    return state;
+    switch (action.type) {
+        case ADD_TO_SEARCH_RES:
+            return {
+                ...state,
+                result: action.moviesList,
+                showSearch: true
+            }
+
+        default:
+            return state
+    }
 }
 
 // const initialRoot = {
