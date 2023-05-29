@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { handleMovieSearch, addMovietoList } from '../actions'
+import { storeContext } from "../main";
 
 const Navbar = (props) => {
     const [searchResText, setSearchResText] = useState('');
     const { result: movie, showSearch } = props.search;
-    console.log(movie);
+    // console.log(movie);
 
     const handleChange = (e) => {
         setSearchResText(e.target.value)
@@ -52,4 +53,14 @@ const Navbar = (props) => {
     )
 }
 
-export default Navbar
+const NavbarWrapper = (props) => {
+    return (
+        <storeContext.Consumer>
+            {(store) => {
+                return <Navbar dispatch={store.dispatch} search={props.search} />
+            }}
+        </storeContext.Consumer>
+    )
+}
+
+export default NavbarWrapper

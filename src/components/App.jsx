@@ -3,6 +3,7 @@ import { data } from "../data"
 import MovieCard from "./MovieCard"
 import Navbar from "./Navbar"
 import { addMovies, showFav } from "../actions";
+import { storeContext } from "../main";
 
 class App extends React.Component {
 
@@ -45,7 +46,6 @@ class App extends React.Component {
       <>
         <div>
           <Navbar
-            dispatch={this.props.store.dispatch}
             search={search}
           />
 
@@ -83,4 +83,16 @@ class App extends React.Component {
   }
 }
 
-export default App
+class AppWrapper extends React.Component {
+  render() {
+    return (
+      <storeContext.Consumer>
+        {(store) => {
+          return <App store={store} />
+        }}
+      </storeContext.Consumer>
+    )
+  }
+}
+
+export default AppWrapper

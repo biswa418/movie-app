@@ -54,9 +54,11 @@ class Provider extends React.Component {
   render() {
     const { store } = this.props;
 
-    <storeContext.Provider value={store}>
-      {this.props.children}
-    </storeContext.Provider>
+    return (
+      <storeContext.Provider value={store}>
+        {this.props.children}
+      </storeContext.Provider>
+    )
   }
 }
 
@@ -64,7 +66,7 @@ class Provider extends React.Component {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App store={store} />
+      <App />
     </Provider>
   </React.StrictMode>,
 )
