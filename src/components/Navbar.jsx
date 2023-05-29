@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { handleMovieSearch, addMovietoList } from '../actions'
-import { storeContext } from "../main";
+import { connect } from "react-redux";
 
 const Navbar = (props) => {
     const [searchResText, setSearchResText] = useState('');
@@ -53,14 +53,21 @@ const Navbar = (props) => {
     )
 }
 
-const NavbarWrapper = (props) => {
-    return (
-        <storeContext.Consumer>
-            {(store) => {
-                return <Navbar dispatch={store.dispatch} search={props.search} />
-            }}
-        </storeContext.Consumer>
-    )
+// const NavbarWrapper = (props) => {
+//     return (
+//         <storeContext.Consumer>
+//             {(store) => {
+//                 return <Navbar dispatch={store.dispatch} search={props.search} />
+//             }}
+//         </storeContext.Consumer>
+//     )
+// }
+
+function mapStateToProps({ search }) {
+    return {
+        search
+    }
 }
 
-export default NavbarWrapper
+const connectedNav = connect(mapStateToProps)(Navbar)
+export default connectedNav

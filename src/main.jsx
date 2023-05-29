@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
 import './index.css'
@@ -48,19 +49,56 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 // console.log(store.getState())
 
 //context to use store on each component
-export const storeContext = createContext()
+// export const storeContext = createContext()
 
-class Provider extends React.Component {
-  render() {
-    const { store } = this.props;
+// class Provider extends React.Component {
+//   render() {
+//     const { store } = this.props;
 
-    return (
-      <storeContext.Provider value={store}>
-        {this.props.children}
-      </storeContext.Provider>
-    )
-  }
-}
+//     return (
+//       <storeContext.Provider value={store}>
+//         {this.props.children}
+//       </storeContext.Provider>
+//     )
+//   }
+// }
+
+// export function connect(callback) {
+//   return function (Comp) {
+//     class ConnectedComponent extends React.Component {
+//       constructor(props) {
+//         super(props);
+//         this.unsub = this.props.store.subscribe(() => this.forceUpdate());
+//       }
+
+//       componentWillUnmount() {
+//         this.unsub();
+//       }
+
+//       render() {
+//         const { store } = this.props;
+//         const state = store.getState();
+//         const dataTobePassed = callback(state);
+
+//         return <Comp {...dataTobePassed} dispatch={store.dispatch} />
+//       }
+//     }
+
+//     class ConnectedCompWrapper extends React.Component {
+//       render() {
+//         return (
+//           <storeContext.Consumer>
+//             {(store) => {
+//               <ConnectedComponent store={store} />
+//             }}
+//           </storeContext.Consumer>
+//         )
+//       }
+//     }
+
+//     return ConnectedCompWrapper
+//   }
+// }
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
